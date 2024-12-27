@@ -52,22 +52,11 @@ public class SourceInfo {
     public String getLastRecord() {
         return last_record;
     }
-
-
-
-    public String dwd_station_id() {
-        return dwd_station_id;
-    }
-
-    public void setDwd_station_id(String dwd_station_id) {
+    public void setDwdStationId(String dwd_station_id) {
         this.dwd_station_id = dwd_station_id;
     }
 
-    public String observation_type() {
-        return observation_type;
-    }
-
-    public void setObservation_type(String observation_type) {
+    public void setObservationType(String observation_type) {
         this.observation_type = observation_type;
     }
 
@@ -75,50 +64,27 @@ public class SourceInfo {
         return lat;
     }
 
-    public float lon() {
-        return lon;
-    }
-
-    public float height() {
-        return height;
-    }
-
-    public String station_name() {
-        return station_name;
-    }
-
-    public void setStation_name(String station_name) {
+    public void setStationName(String station_name) {
         this.station_name = station_name;
     }
 
-    public String wmo_station_id() {
-        return wmo_station_id;
-    }
 
-    public void setWmo_station_id(String wmo_station_id) {
+    public void setWmoStationId(String wmo_station_id) {
         this.wmo_station_id = wmo_station_id;
     }
 
-    public String first_record() {
-        return first_record;
-    }
-
-    public void setFirst_record(String first_record) {
+    public void setFirstRecord(String first_record) {
         this.first_record = first_record;
     }
 
-    public String last_record() {
-        return last_record;
-    }
-
-    public void setLast_record(String last_record) {
+    public void setLastRecord(String last_record) {
         this.last_record = last_record;
     }
 
     @Override
     public String toString() {
-        return "SourceInfo{" +
-                "id=" + id +
+        return "SourceInfo {" +
+                "id= " + id +
                 ", dwd_station_id='" + dwd_station_id + '\'' +
                 ", observation_type='" + observation_type + '\'' +
                 ", lat=" + lat +

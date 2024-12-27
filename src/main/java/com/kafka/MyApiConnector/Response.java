@@ -17,9 +17,6 @@ public class Response {
     public List<SourceInfo> getSources(){
         return sources;
     }
-//    public long getEpochTimestamp() {
-//        return weather != null ? weather.getEpochTimestamp() : 0L;
-//    }
 
     @Override
     public String toString() {
@@ -37,10 +34,7 @@ public class Response {
         return 0L; // Return 0 if weather is null
     }
 
-    // Setter for epochTimestamp (optional, depending on your JSON mapping)
-//    public void setEpochTimestamp(long epochTimestamp) {
-//        this.epochTimestamp = epochTimestamp;
-//    }
+
 public void setEpochTimestamp(String timestamp) {
     try {
         ZonedDateTime zdt = ZonedDateTime.parse(timestamp);
