@@ -19,7 +19,7 @@ How to RUN?
     value.converter.schemas.enable=false
     offset.storage.file.filename=/tmp/connect.offsets
     offset.flush.interval.ms=10000
-    plugin.path=[The pathe of the jar plugin]
+    plugin.path=[The path of the jar plugin]
 11. In the 'source-connector.properties' include the following lines:
     name=weather-source-connector-station-00433
     connector.class=com.kafka.MyApiConnector.TheSourceConnector
