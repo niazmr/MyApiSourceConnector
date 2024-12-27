@@ -1,4 +1,5 @@
 This is a Kafka source connector API, which pulls 'current_weather' data from the "https://brightsky.dev/docs/#/operations/getCurrentWeather" API.
+The connector pulls current weather data from the API as JSON records and serializes them to your kafka topic.
 
 How to RUN?
 1. Clone the the Respository to your local machine or wherever you want to run your source connector.
@@ -28,5 +29,47 @@ How to RUN?
     kafka.topic=[your kafka topic name]
 12. Change to the "SourceConnector" directory
 13. Run the command  'connect-standalone.sh standalone-connect.properties sourceConnector.properties'
-14. You will receive real time weather data into your kafka topic
+14. You will receive real time weather data into your kafka topic:
+15. The following will be one of the weather response which you will receive:
+    {
+	"Weather-Info": {
+		"source_id": "303711",
+		"timestamp": "2024-12-27T22:30:00+01:00",
+		"condition": "fog",
+		"temperature": 0.4,
+		"icon": "fog",
+		"visibility": 290,
+		"cloud_cover": 100,
+		"dew_point": 0.4,
+		"solar_10": null,
+		"solar_30": null,
+		"solar_60": null,
+		"precipitation_10": 0,
+		"precipitation_30": 0,
+		"precipitation_60": 0,
+		"pressure_msl": 1033.9,
+		"relative_humidity": 100,
+		"wind_direction_10": 180,
+		"wind_direction_30": 177,
+		"wind_direction_60": 175,
+		"wind_speed_10": 5.4,
+		"wind_speed_30": 5,
+		"wind_speed_60": 4.7,
+		"sunshine_30": null,
+		"sunshine_60": null,
+		"epochTimestamp": 0
+	},
+	"Source-Info": {
+		"id": "303711",
+		"dwd_station_id": "00433",
+		"observation_type": "synop",
+		"station_name": "Berlin-Tempelhof",
+		"lat": 52.4676,
+		"lon": 13.402,
+		"wmo_station_id": "10384",
+		"height": 47.7,
+		"first_record": "2024-12-26T15:30:00+00:00",
+		"last_record": "2024-12-27T21:30:00+00:00"
+	}
+}
 
