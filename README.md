@@ -1,4 +1,4 @@
-This is a Kafka source connector API, which pulls 'current_weather' data from the "https://brightsky.dev/docs/#/operations/getCurrentWeather" API.
+This is a Java Kafka source connector API, which pulls 'current_weather' data from the "https://brightsky.dev/docs/#/operations/getCurrentWeather" API.
 The connector pulls current weather data from the API as JSON records and serializes them to your kafka topic.
 
 How to RUN?
