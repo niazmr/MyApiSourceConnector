@@ -16,7 +16,9 @@ public class SourceInfo {
     public String getId() {
         return id;
     }
-
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getDwdStationId() {
         return dwd_station_id;
     }
@@ -28,15 +30,23 @@ public class SourceInfo {
     public float getLat() {
         return lat;
     }
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
 
     public float getLon() {
         return lon;
+    }
+    public void setLon(float lon) {
+        this.lon = lon;
     }
 
     public float getHeight() {
         return height;
     }
-
+    public void setHeight(float height) {
+        this.height = height;
+    }
     public String getStationName() {
         return station_name;
     }

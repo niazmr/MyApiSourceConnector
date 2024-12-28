@@ -1,16 +1,11 @@
 package com.kafka.MyApiConnector;
 
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.google.gson.*;
 
-import java.lang.reflect.Type;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
-//import java.util.logging.Logger;
 
 public class CurrentWeather {
     //  @SerializedName("source_id")
@@ -285,6 +280,9 @@ public class CurrentWeather {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp; // Save the raw timestamp for debugging
+//        if(timestamp != null) {
+//            throw new IllegalArgumentException("Timestamp cannot be null or empty");
+//        }
         try {
             // Parse ISO 8601 format and convert to epoch seconds
             ZonedDateTime zdt = ZonedDateTime.parse(timestamp);

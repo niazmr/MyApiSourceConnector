@@ -1,3 +1,5 @@
+
+
 package com.kafka.MyApiConnector;
 
 import java.util.Collections;
@@ -64,8 +66,8 @@ public class TheRecordFactory {
             .field("lon", Schema.FLOAT32_SCHEMA)
             .field("wmo_station_id", Schema.STRING_SCHEMA)
             .field("height", Schema.FLOAT32_SCHEMA)
-            .field("first_record", Schema.STRING_SCHEMA)
-            .field("last_record", Schema.STRING_SCHEMA)
+            .field("first_record", Schema.OPTIONAL_STRING_SCHEMA)
+            .field("last_record", Schema.OPTIONAL_STRING_SCHEMA)
             .build();
 
     // Schema for API Response
