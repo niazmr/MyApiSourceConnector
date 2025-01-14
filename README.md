@@ -2,6 +2,10 @@ This is a Java Kafka source connector API, which pulls 'current_weather' data fr
 The connector pulls current weather data from the API as JSON records and serializes them to your kafka topic.
 To pull weather data, you require no API key.
 
+Prerequisite:
+1. A Running cluster of kafka brokers, at least a broker server.
+
+
 How to RUN?
 1. Clone the the Respository to your local machine or wherever you want to run your source connector.
 2. Use command cd to change your directory to the cloned source connector directory, cd [parent directory]/MyApiSourceConnector
