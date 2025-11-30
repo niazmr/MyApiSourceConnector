@@ -1,12 +1,5 @@
 package com.kafka.MyApiConnector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.stream.Collectors;
-
-//import okhttp3.Response;
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
@@ -14,75 +7,100 @@ import org.apache.kafka.connect.storage.OffsetStorageReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.*;
+
 public class TheSourceTask extends SourceTask {
 
-    private static Logger log = LoggerFactory.getLogger(TheSourceTask.class);
+    private static final Logger log = LoggerFactory.getLogger(TheSourceTask.class);
 
-    // fires at regular/fixed poll intervals
-    private Timer fetchTimer;
-    // invoked by the timer to call the weather API
     private TheDataFetcher dataFetcher;
-
-    // factory class for creating Connect records from the API responses
     private TheRecordFactory recordFactory;
-
-    @Override
-    public void start(Map<String, String> properties) {
-        log.info("Starting task {}", properties);
-
-        AbstractConfig config = new AbstractConfig(ConnectorConfig.configDef, properties);
-        recordFactory = new TheRecordFactory(config);
-
-        // Use the new getPersistedOffset method
-        Long offset = recordFactory.getPersistedOffset(getOffsetStorageReader());
-
-        dataFetcher = new TheDataFetcher(config, offset);
-
-        fetchTimer = new Timer();
-        int pollInterval = Integer.parseInt(config.getString(ConnectorConfig.POLLING_INTERVAL)) * 1000;
-        fetchTimer.scheduleAtFixedRate(dataFetcher, 0, pollInterval);
-    }
-
-    @Override
-    public List<SourceRecord> poll() throws InterruptedException {
-    //    log.info("Polling for API responses...");
-        List<Response> responses = dataFetcher.getResponses();
-
-        List<SourceRecord> records = responses.stream()
-                .map(recordFactory::createSourceRecord)
-                .filter(record -> record != null) // Filter out null records
-                .collect(Collectors.toList());
-        return records;
-    }
-
-    @Override
-    public void stop() {
-        log.info("Stopping task");
-
-        if (fetchTimer != null) {
-            fetchTimer.cancel();
-        }
-        fetchTimer = null;
-        dataFetcher = null;
-        recordFactory = null;
-    }
 
     @Override
     public String version() {
         return TheSourceConnector.VERSION;
     }
 
-    private OffsetStorageReader getOffsetStorageReader () {
-        if (context == null) {
-            log.debug("No context - assuming that this is the first time the Connector has run");
-            return null;
+    @Override
+    public void start(Map<String, String> properties) {
+        log.info("Starting SourceTask with properties: {}", properties);
+
+        AbstractConfig config = new AbstractConfig(ConnectorConfig.configDef, properties);
+        this.recordFactory = new TheRecordFactory(config);
+
+        OffsetStorageReader offsetReader = context.offsetStorageReader();
+        Long restoredOffset = recordFactory.getPersistedOffset(offsetReader);
+        log.info("Restored offset from storage: {}", restoredOffset);
+
+        this.dataFetcher = new TheDataFetcher(config, restoredOffset);
+
+        try {
+            List<Response> initial = dataFetcher.fetchOnce();
+            if (initial.isEmpty()) {
+                log.info("Initial fetch returned no data.");
+            } else {
+                log.info("Initial fetch returned {} record(s).", initial.size());
+                for (Response r : initial) {
+                    log.debug("Initial response: timestamp={}, sourceId={}",
+                            r.getEpochTimestamp(), r.getCurrentStationId());
+                }
+            }
+        } catch (IOException e) {
+            log.error("Initial fetch failed", e);
         }
-        else if (context.offsetStorageReader() == null) {
-            log.debug("No offset reader - assuming that this is the first time the Connector has run");
-            return null;
+    }
+
+    @Override
+    public List<SourceRecord> poll() throws InterruptedException {
+        try {
+            log.info("Polling for new weather API records...");
+            List<Response> responses = dataFetcher.fetchOnce();
+            if (responses == null || responses.isEmpty()) {
+                log.info("No new API responses fetched.");
+                return Collections.emptyList();
+            }
+
+            log.info("Fetched {} new responses.", responses.size());
+
+            List<SourceRecord> records = new ArrayList<>();
+            for (Response r : responses) {
+                if (r.getCurrentWeather() == null) {
+                    log.warn("--> Skipping response with null current weather.");
+                    continue;
+                }
+
+                SourceRecord record = recordFactory.createSourceRecord(r);
+                if (record != null) {
+                    log.info("OK. Emitting SourceRecord → topic={}, key={}, timestamp={}, station={}",
+                            record.topic(),
+                            record.key(),
+                            r.getEpochTimestamp(),
+                            r.getCurrentStationId());
+                    records.add(record);
+                } else {
+                    log.warn(" [WARN] RecordFactory returned null for a response. Skipping.");
+                }
+            }
+
+            return records;
+        } catch (IOException e) {
+            log.error(" [WARN] IOException during poll(): {}", e.getMessage(), e);
+            Thread.sleep(60_000); // Back off on network errors
+            return Collections.emptyList();
+        } catch (Exception e) {
+            log.error("[ERROR] Unexpected error during poll(): {}", e.getMessage(), e);
+            Thread.sleep(60_000);
+            return Collections.emptyList();
+        } finally {
+            Thread.sleep(30_000); // Always sleep between polls
         }
-        else {
-            return context.offsetStorageReader();
-        }
+    }
+
+    @Override
+    public void stop() {
+        log.info("Stopping SourceTask");
+        this.dataFetcher = null;
+        this.recordFactory = null;
     }
 }

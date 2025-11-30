@@ -8,9 +8,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
 public class CurrentWeather {
-    //  @SerializedName("source_id")
+    @SerializedName("source_id")
     private String source_id;
-    // @SerializedName("timestamp")
+    @SerializedName("timestamp")
     private String timestamp;
     @SerializedName("cloud_cover")
     private int cloud_cover;
@@ -43,6 +43,7 @@ public class CurrentWeather {
     private String icon;
     //  private String lastUpdated;
     private long epochTimestamp;
+  //  private String timestamp;
 
     private static final Logger log = LoggerFactory.getLogger(CurrentWeather.class.getName());
 
@@ -272,10 +273,25 @@ public class CurrentWeather {
 
 
     public long getEpochTimestamp() {
-        return this.epochTimestamp;
+        if (epochTimestamp != 0L) {
+            log.debug("Returning cached epochTimestamp: {}", epochTimestamp);
+            return epochTimestamp;
+        }
+
+        if (timestamp != null && !timestamp.isEmpty()) {
+            log.info("Attempting to parse timestamp field: '{}'", timestamp);
+            try {
+                epochTimestamp = ZonedDateTime.parse(timestamp).toEpochSecond();
+                log.info("Parsed epochTimestamp from '{}' = {}", timestamp, epochTimestamp);
+            } catch (DateTimeParseException e) {
+                log.error("Failed to parse timestamp '{}'", timestamp, e);
+            }
+        } else {
+            log.warn("Timestamp is null or empty. JSON mapping may have failed.");
+        }
+
+        return epochTimestamp;
     }
-
-
     // Setter for timestamp
 
     public void setTimestamp(String timestamp) {
@@ -313,10 +329,10 @@ public class CurrentWeather {
 
 
 
-    // Setter for epochTimestamp
-    public void setEpochTimestamp(long epochTimestamp) {
-        this.epochTimestamp = epochTimestamp;
-    }
+//    // Setter for epochTimestamp
+//    public void setEpochTimestamp(long epochTimestamp) {
+//        this.epochTimestamp = epochTimestamp;
+//    }
 
     @Override
     public String toString() {
