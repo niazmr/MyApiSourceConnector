@@ -46,10 +46,6 @@ public class Response {
         return getCurrentStationId().isEmpty() ? "unknown" : getCurrentStationId();
     }
 
-//    public CurrentWeather getCurrent() {
-//        return currentWeather;
-//    }
-
     // === Setters ===
 
     public void setCurrentWeather(CurrentWeather currentWeather) {

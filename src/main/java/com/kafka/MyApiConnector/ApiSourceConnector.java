@@ -12,25 +12,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class TheSourceConnector extends SourceConnector {
+public class ApiSourceConnector extends SourceConnector {
 
     protected static final String VERSION = "0.0.1";
 
 
-    private final Logger log = LoggerFactory.getLogger(TheSourceConnector.class);
+    private final Logger log = LoggerFactory.getLogger(ApiSourceConnector.class);
 
     private Map<String, String> configProps = null;
 
 
     @Override
     public ConfigDef config() {
-        return ConnectorConfig.configDef;
+        return ApiSourceConnectorConfig.configDef;
     }
 
 
     @Override
     public Class<? extends Task> taskClass() {
-        return TheSourceTask.class;
+        return ApiSourceTask.class;
     }
 
 

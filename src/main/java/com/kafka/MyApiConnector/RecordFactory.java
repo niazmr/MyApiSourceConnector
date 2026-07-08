@@ -11,15 +11,15 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class TheRecordFactory {
+public class RecordFactory {
 
-    private static final Logger log = LoggerFactory.getLogger(TheRecordFactory.class);
-    private final String source_id;
+    private static final Logger log = LoggerFactory.getLogger(RecordFactory.class);
+    private final String sourceId;
     private final String topic;
 
-    public TheRecordFactory(AbstractConfig config) {
-        this.source_id = config.getString(ConnectorConfig.SOURCE_ID);
-        this.topic = config.getString(ConnectorConfig.TOPIC);
+    public RecordFactory(AbstractConfig config) {
+        this.sourceId = config.getString(ApiSourceConnectorConfig.SOURCE_ID);
+        this.topic = config.getString(ApiSourceConnectorConfig.TOPIC);
     }
 
     // Weather Schema
@@ -135,14 +135,14 @@ public class TheRecordFactory {
                 payload
         );
 
-        log.info("[TheRecordFactory] OK. Created SourceRecord => topic={}, timestamp={}, station={}",
+        log.info("[RecordFactory] OK. Created SourceRecord => topic={}, timestamp={}, station={}",
                 topic, weather.getEpochTimestamp(), weather.getSourceId());
 
         return record;
     }
 
     private Map<String, Object> createSourcePartition() {
-        return Collections.singletonMap("source_id", source_id);
+        return Collections.singletonMap("source_id", sourceId);
     }
 
     private Map<String, Object> createSourceOffset(CurrentWeather weather) {

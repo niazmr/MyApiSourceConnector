@@ -12,9 +12,9 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TheDataFetcher extends TimerTask {
+public class DataFetcher extends TimerTask {
 
-    private static final Logger log = LoggerFactory.getLogger(TheDataFetcher.class);
+    private static final Logger log = LoggerFactory.getLogger(DataFetcher.class);
     private static final String API_CURRENT_URL = "https://api.brightsky.dev/current_weather";
 
     private final SortedSet<Response> fetchedRecords;
@@ -39,7 +39,7 @@ public class TheDataFetcher extends TimerTask {
             }
     );
 
-    public TheDataFetcher(AbstractConfig config, Long offset) {
+    public DataFetcher(AbstractConfig config, Long offset) {
         this.latitude = config.getString("latitude");
         this.longitude = config.getString("longitude");
         this.dwdStationId = config.getString("dwd_station_id");
@@ -53,10 +53,11 @@ public class TheDataFetcher extends TimerTask {
         this.disableOffsetCheck = config.getBoolean("disable.offset.check");
 
         this.offset = (offset == null) ? 0L : offset;
+        this.isFirstFetch = (this.offset == 0L);
         this.fetchedRecords = Collections.synchronizedSortedSet(new TreeSet<>(new ResponseComparator()));
         this.apiResponseParser = new Gson();
 
-        log.info("Initialized TheDataFetcher with offset={} | lat={}, lon={}, dwdStationId={} | interval={}s | disableOffsetCheck={}",
+        log.info("Initialized DataFetcher with offset={} | lat={}, lon={}, dwdStationId={} | interval={}s | disableOffsetCheck={}",
                 this.offset, latitude, longitude, dwdStationId, pollingInterval, disableOffsetCheck);
     }
 
@@ -137,17 +138,11 @@ public class TheDataFetcher extends TimerTask {
         return singleShot;
     }
 
-    private Reader getApiReader() throws IOException {
-        String fullUrl;
-        if (dwdStationId != null && !dwdStationId.isEmpty()) {
-            fullUrl = API_CURRENT_URL + "?dwd_station_id=" + URLEncoder.encode(dwdStationId, StandardCharsets.UTF_8);
-        } else {
-            fullUrl = API_CURRENT_URL + "?lat=" + URLEncoder.encode(latitude, StandardCharsets.UTF_8)
-                    + "&lon=" + URLEncoder.encode(longitude, StandardCharsets.UTF_8);
-        }
+    protected Reader getApiReader() throws IOException {
+        String fullUrl = buildUrl();
 
         log.info("Calling BrightSky API: {}", fullUrl);
-        URL url = new URL(fullUrl);
+        URL url = URI.create(fullUrl).toURL();
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         httpConn.setRequestProperty("Accept", "application/json");
 
@@ -158,6 +153,15 @@ public class TheDataFetcher extends TimerTask {
         }
 
         return new InputStreamReader(httpConn.getInputStream(), StandardCharsets.UTF_8);
+    }
+
+    protected String buildUrl() {
+        if (dwdStationId != null && !dwdStationId.isEmpty()) {
+            return API_CURRENT_URL + "?dwd_station_id=" + URLEncoder.encode(dwdStationId, StandardCharsets.UTF_8);
+        } else {
+            return API_CURRENT_URL + "?lat=" + URLEncoder.encode(latitude, StandardCharsets.UTF_8)
+                    + "&lon=" + URLEncoder.encode(longitude, StandardCharsets.UTF_8);
+        }
     }
 
     public synchronized List<Response> getResponses() {

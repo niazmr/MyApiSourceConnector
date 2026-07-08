@@ -10,30 +10,43 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.*;
 
-public class TheSourceTask extends SourceTask {
+public class ApiSourceTask extends SourceTask {
 
-    private static final Logger log = LoggerFactory.getLogger(TheSourceTask.class);
+    private static final Logger log = LoggerFactory.getLogger(ApiSourceTask.class);
 
-    private TheDataFetcher dataFetcher;
-    private TheRecordFactory recordFactory;
+    private DataFetcher dataFetcher;
+    private RecordFactory recordFactory;
+
+    public ApiSourceTask() {
+    }
+
+    // Constructor for testing
+    ApiSourceTask(DataFetcher dataFetcher, RecordFactory recordFactory) {
+        this.dataFetcher = dataFetcher;
+        this.recordFactory = recordFactory;
+    }
 
     @Override
     public String version() {
-        return TheSourceConnector.VERSION;
+        return ApiSourceConnector.VERSION;
     }
 
     @Override
     public void start(Map<String, String> properties) {
         log.info("Starting SourceTask with properties: {}", properties);
 
-        AbstractConfig config = new AbstractConfig(ConnectorConfig.configDef, properties);
-        this.recordFactory = new TheRecordFactory(config);
+        AbstractConfig config = new AbstractConfig(ApiSourceConnectorConfig.configDef, properties);
+        if (this.recordFactory == null) {
+            this.recordFactory = new RecordFactory(config);
+        }
 
         OffsetStorageReader offsetReader = context.offsetStorageReader();
         Long restoredOffset = recordFactory.getPersistedOffset(offsetReader);
         log.info("Restored offset from storage: {}", restoredOffset);
 
-        this.dataFetcher = new TheDataFetcher(config, restoredOffset);
+        if (this.dataFetcher == null) {
+            this.dataFetcher = new DataFetcher(config, restoredOffset);
+        }
 
         try {
             List<Response> initial = dataFetcher.fetchOnce();
@@ -93,8 +106,12 @@ public class TheSourceTask extends SourceTask {
             Thread.sleep(60_000);
             return Collections.emptyList();
         } finally {
-            Thread.sleep(30_000); // Always sleep between polls
+            waitNextPoll();
         }
+    }
+
+    protected void waitNextPoll() throws InterruptedException {
+        Thread.sleep(30_000); // Always sleep between polls
     }
 
     @Override

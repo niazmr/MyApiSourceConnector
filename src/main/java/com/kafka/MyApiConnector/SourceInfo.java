@@ -1,16 +1,24 @@
 package com.kafka.MyApiConnector;
 
+import com.google.gson.annotations.SerializedName;
+
 public class SourceInfo {
     private String id;
-    private String dwd_station_id;
-    private String observation_type;
+    @SerializedName("dwd_station_id")
+    private String dwdStationId;
+    @SerializedName("observation_type")
+    private String observationType;
     private float lat;
     private float lon;
     private float height;
-    private String station_name;
-    private String wmo_station_id;
-    private String first_record;
-    private String last_record;
+    @SerializedName("station_name")
+    private String stationName;
+    @SerializedName("wmo_station_id")
+    private String wmoStationId;
+    @SerializedName("first_record")
+    private String firstRecord;
+    @SerializedName("last_record")
+    private String lastRecord;
 
     // Getters for each field
     public String getId() {
@@ -20,11 +28,11 @@ public class SourceInfo {
         this.id = id;
     }
     public String getDwdStationId() {
-        return dwd_station_id;
+        return dwdStationId;
     }
 
     public String getObservationType() {
-        return observation_type;
+        return observationType;
     }
 
     public float getLat() {
@@ -48,62 +56,58 @@ public class SourceInfo {
         this.height = height;
     }
     public String getStationName() {
-        return station_name;
+        return stationName;
     }
 
     public String getWmoStationId() {
-        return wmo_station_id;
+        return wmoStationId;
     }
 
     public String getFirstRecord() {
-        return first_record;
+        return firstRecord;
     }
 
     public String getLastRecord() {
-        return last_record;
+        return lastRecord;
     }
-    public void setDwdStationId(String dwd_station_id) {
-        this.dwd_station_id = dwd_station_id;
-    }
-
-    public void setObservationType(String observation_type) {
-        this.observation_type = observation_type;
+    public void setDwdStationId(String dwdStationId) {
+        this.dwdStationId = dwdStationId;
     }
 
-    public float lat() {
-        return lat;
+    public void setObservationType(String observationType) {
+        this.observationType = observationType;
     }
 
-    public void setStationName(String station_name) {
-        this.station_name = station_name;
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
     }
 
 
-    public void setWmoStationId(String wmo_station_id) {
-        this.wmo_station_id = wmo_station_id;
+    public void setWmoStationId(String wmoStationId) {
+        this.wmoStationId = wmoStationId;
     }
 
-    public void setFirstRecord(String first_record) {
-        this.first_record = first_record;
+    public void setFirstRecord(String firstRecord) {
+        this.firstRecord = firstRecord;
     }
 
-    public void setLastRecord(String last_record) {
-        this.last_record = last_record;
+    public void setLastRecord(String lastRecord) {
+        this.lastRecord = lastRecord;
     }
 
     @Override
     public String toString() {
         return "SourceInfo {" +
                 "id= " + id +
-                ", dwd_station_id='" + dwd_station_id + '\'' +
-                ", observation_type='" + observation_type + '\'' +
+                ", dwdStationId='" + dwdStationId + '\'' +
+                ", observationType='" + observationType + '\'' +
                 ", lat=" + lat +
                 ", lon=" + lon +
                 ", height=" + height +
-                ", station_name='" + station_name + '\'' +
-                ", wmo_station_id='" + wmo_station_id + '\'' +
-                ", first_record='" + first_record + '\'' +
-                ", last_record='" + last_record + '\'' +
+                ", stationName='" + stationName + '\'' +
+                ", wmoStationId='" + wmoStationId + '\'' +
+                ", firstRecord='" + firstRecord + '\'' +
+                ", lastRecord='" + lastRecord + '\'' +
                 '}';
     }
 }

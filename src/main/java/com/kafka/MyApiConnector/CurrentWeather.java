@@ -9,43 +9,64 @@ import java.time.format.DateTimeParseException;
 
 public class CurrentWeather {
     @SerializedName("source_id")
-    private String source_id;
+    private String sourceId;
     @SerializedName("timestamp")
     private String timestamp;
     @SerializedName("cloud_cover")
-    private int cloud_cover;
+    private int cloudCover;
     private String condition;
-    private double dew_point;
-    private Double solar_10; // Matches "solar_10" (nullable)
-    private Double solar_30; // Matches "solar_30" (nullable)
-    private Double solar_60;
-    private double precipitation_10; // Matches "precipitation_10"
-    private double precipitation_30; // Matches "precipitation_30"
-    private double precipitation_60; // Matches "precipitation_60"
-    private double pressure_msl;
-    private int relative_humidity; // Matches "relative_humidity"
-    private int visibility; // Matches "visibility"
-    private int wind_direction_10; // Matches "wind_direction_10"
-    private int wind_direction_30; // Matches "wind_direction_30"
-    private int wind_direction_60; // Matches "wind_direction_60"
-    private double wind_speed_10; // Matches "wind_speed_10"
-    private double wind_speed_30; // Matches "wind_speed_30"
-    private double wind_speed_60; // Matches "wind_speed_60"
-    private int wind_gust_direction_10; // Matches "wind_gust_direction_10"
-    private int wind_gust_direction_30; // Matches "wind_gust_direction_30"
-    private int wind_gust_direction_60; // Matches "wind_gust_direction_60"
-    private double wind_gust_speed_10; // Matches "wind_gust_speed_10"
-    private double wind_gust_speed_30; // Matches "wind_gust_speed_30"
-    private double wind_gust_speed_60; // Matches "wind_gust_speed_60"
-    private Double sunshine_30; // Matches "sunshine_30" (nullable)
-    private Double sunshine_60; // Match
+    @SerializedName("dew_point")
+    private double dewPoint;
+    @SerializedName("solar_10")
+    private Double solar10;
+    @SerializedName("solar_30")
+    private Double solar30;
+    @SerializedName("solar_60")
+    private Double solar60;
+    @SerializedName("precipitation_10")
+    private double precipitation10;
+    @SerializedName("precipitation_30")
+    private double precipitation30;
+    @SerializedName("precipitation_60")
+    private double precipitation60;
+    @SerializedName("pressure_msl")
+    private double pressureMsl;
+    @SerializedName("relative_humidity")
+    private int relativeHumidity;
+    private int visibility;
+    @SerializedName("wind_direction_10")
+    private int windDirection10;
+    @SerializedName("wind_direction_30")
+    private int windDirection30;
+    @SerializedName("wind_direction_60")
+    private int windDirection60;
+    @SerializedName("wind_speed_10")
+    private double windSpeed10;
+    @SerializedName("wind_speed_30")
+    private double windSpeed30;
+    @SerializedName("wind_speed_60")
+    private double windSpeed60;
+    @SerializedName("wind_gust_direction_10")
+    private int windGustDirection10;
+    @SerializedName("wind_gust_direction_30")
+    private int windGustDirection30;
+    @SerializedName("wind_gust_direction_60")
+    private int windGustDirection60;
+    @SerializedName("wind_gust_speed_10")
+    private double windGustSpeed10;
+    @SerializedName("wind_gust_speed_30")
+    private double windGustSpeed30;
+    @SerializedName("wind_gust_speed_60")
+    private double windGustSpeed60;
+    @SerializedName("sunshine_30")
+    private Double sunshine30;
+    @SerializedName("sunshine_60")
+    private Double sunshine60;
     private float temperature;
     private String icon;
-    //  private String lastUpdated;
     private long epochTimestamp;
-  //  private String timestamp;
 
-    private static final Logger log = LoggerFactory.getLogger(CurrentWeather.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(CurrentWeather.class);
 
     // Getters
     public String getTimestamp() {
@@ -65,90 +86,90 @@ public class CurrentWeather {
     }
 
     public String getSourceId() {
-        return source_id;
+        return sourceId;
     }
 
-    public void setSourceId(String source_id) {
-        this.source_id = source_id;
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 
     public int getCloudCover() {
-        return cloud_cover;
+        return cloudCover;
     }
-    public void setCloudCover(int cloud_cover) {
-        this.cloud_cover = cloud_cover;
+    public void setCloudCover(int cloudCover) {
+        this.cloudCover = cloudCover;
     }
 
     public double getDewPoint() {
-        return dew_point;
+        return dewPoint;
     }
 
-    public void setDewPoint(double dew_point) {
-        this.dew_point = dew_point;
+    public void setDewPoint(double dewPoint) {
+        this.dewPoint = dewPoint;
     }
 
     public Double getSolar10() {
-        return solar_10;
+        return solar10;
     }
 
-    public void setSolar10(Double solar_10) {
-        this.solar_10 = solar_10;
+    public void setSolar10(Double solar10) {
+        this.solar10 = solar10;
     }
 
     public Double getSolar30() {
-        return solar_30;
+        return solar30;
     }
 
-    public void setSolar30(Double solar_30) {
-        this.solar_30 = solar_30;
+    public void setSolar30(Double solar30) {
+        this.solar30 = solar30;
     }
 
     public Double getSolar60() {
-        return solar_60;
+        return solar60;
     }
 
-    public void setSolar60(Double solar_60) {
-        this.solar_60 = solar_60;
+    public void setSolar60(Double solar60) {
+        this.solar60 = solar60;
     }
 
     public double getPrecipitation10() {
-        return precipitation_10;
+        return precipitation10;
     }
 
-    public void setPrecipitation10(double precipitation_10) {
-        this.precipitation_10 = precipitation_10;
+    public void setPrecipitation10(double precipitation10) {
+        this.precipitation10 = precipitation10;
     }
 
     public double getPrecipitation30() {
-        return precipitation_30;
+        return precipitation30;
     }
 
-    public void setPrecipitation30(double precipitation_30) {
-        this.precipitation_30 = precipitation_30;
+    public void setPrecipitation30(double precipitation30) {
+        this.precipitation30 = precipitation30;
     }
 
     public double getPrecipitation60() {
-        return precipitation_60;
+        return precipitation60;
     }
 
-    public void setPrecipitation60(double precipitation_60) {
-        this.precipitation_60 = precipitation_60;
+    public void setPrecipitation60(double precipitation60) {
+        this.precipitation60 = precipitation60;
     }
 
     public double getPressureMsl() {
-        return pressure_msl;
+        return pressureMsl;
     }
 
-    public void setPressureMsl(double pressure_msl) {
-        this.pressure_msl = pressure_msl;
+    public void setPressureMsl(double pressureMsl) {
+        this.pressureMsl = pressureMsl;
     }
 
     public int getRelativeHumidity() {
-        return relative_humidity;
+        return relativeHumidity;
     }
 
-    public void setRelativeHumidity(int relative_humidity) {
-        this.relative_humidity = relative_humidity;
+    public void setRelativeHumidity(int relativeHumidity) {
+        this.relativeHumidity = relativeHumidity;
     }
 
     public int getVisibility() {
@@ -160,115 +181,115 @@ public class CurrentWeather {
     }
 
     public int getWindDirection10() {
-        return wind_direction_10;
+        return windDirection10;
     }
 
-    public void setWindDirection10(int wind_direction_10) {
-        this.wind_direction_10 = wind_direction_10;
+    public void setWindDirection10(int windDirection10) {
+        this.windDirection10 = windDirection10;
     }
 
     public int getWindDirection30() {
-        return wind_direction_30;
+        return windDirection30;
     }
 
-    public void setWindDirection30(int wind_direction_30) {
-        this.wind_direction_30 = wind_direction_30;
+    public void setWindDirection30(int windDirection30) {
+        this.windDirection30 = windDirection30;
     }
 
     public int getWindDirection60() {
-        return wind_direction_60;
+        return windDirection60;
     }
 
-    public void setWindDirection60(int wind_direction_60) {
-        this.wind_direction_60 = wind_direction_60;
+    public void setWindDirection60(int windDirection60) {
+        this.windDirection60 = windDirection60;
     }
 
     public double getWindSpeed10() {
-        return wind_speed_10;
+        return windSpeed10;
     }
 
-    public void setWindSpeed10(double wind_speed_10) {
-        this.wind_speed_10 = wind_speed_10;
+    public void setWindSpeed10(double windSpeed10) {
+        this.windSpeed10 = windSpeed10;
     }
 
     public double getWindSpeed30() {
-        return wind_speed_30;
+        return windSpeed30;
     }
 
-    public void setWindSpeed30(double wind_speed_30) {
-        this.wind_speed_30 = wind_speed_30;
+    public void setWindSpeed30(double windSpeed30) {
+        this.windSpeed30 = windSpeed30;
     }
 
     public double getWindSpeed60() {
-        return wind_speed_60;
+        return windSpeed60;
     }
 
-    public void setWindSpeed60(double wind_speed_60) {
-        this.wind_speed_60 = wind_speed_60;
+    public void setWindSpeed60(double windSpeed60) {
+        this.windSpeed60 = windSpeed60;
     }
 
     public int getWindGustDirection10() {
-        return wind_gust_direction_10;
+        return windGustDirection10;
     }
 
-    public void setWindGustDirection10(int wind_gust_direction_10) {
-        this.wind_gust_direction_10 = wind_gust_direction_10;
+    public void setWindGustDirection10(int windGustDirection10) {
+        this.windGustDirection10 = windGustDirection10;
     }
 
     public int getWindGustDirection30() {
-        return wind_gust_direction_30;
+        return windGustDirection30;
     }
 
-    public void setWindGustDirection30(int wind_gust_direction_30) {
-        this.wind_gust_direction_30 = wind_gust_direction_30;
+    public void setWindGustDirection30(int windGustDirection30) {
+        this.windGustDirection30 = windGustDirection30;
     }
 
     public int getWindGustDirection60() {
-        return wind_gust_direction_60;
+        return windGustDirection60;
     }
 
-    public void setWindGustDirection60(int wind_gust_direction_60) {
-        this.wind_gust_direction_60 = wind_gust_direction_60;
+    public void setWindGustDirection60(int windGustDirection60) {
+        this.windGustDirection60 = windGustDirection60;
     }
 
-    public double windGustSpeed10() {
-        return wind_gust_speed_10;
+    public double getWindGustSpeed10() {
+        return windGustSpeed10;
     }
 
-    public void setWindGustSpeed10(double wind_gust_speed_10) {
-        this.wind_gust_speed_10 = wind_gust_speed_10;
+    public void setWindGustSpeed10(double windGustSpeed10) {
+        this.windGustSpeed10 = windGustSpeed10;
     }
 
     public double getWindGustSpeed30() {
-        return wind_gust_speed_30;
+        return windGustSpeed30;
     }
 
-    public void setWindGustSpeed30(double wind_gust_speed_30) {
-        this.wind_gust_speed_30 = wind_gust_speed_30;
+    public void setWindGustSpeed30(double windGustSpeed30) {
+        this.windGustSpeed30 = windGustSpeed30;
     }
 
     public double getWindGustSpeed60() {
-        return wind_gust_speed_60;
+        return windGustSpeed60;
     }
 
-    public void setWindGustSpeed60(double wind_gust_speed_60) {
-        this.wind_gust_speed_60 = wind_gust_speed_60;
+    public void setWindGustSpeed60(double windGustSpeed60) {
+        this.windGustSpeed60 = windGustSpeed60;
     }
 
     public Double getSunshine30() {
-        return sunshine_30;
+        return sunshine30;
     }
 
-    public void setSunshine30(Double sunshine_30) {
-        this.sunshine_30 = sunshine_30;
+    public void setSunshine30(Double sunshine30) {
+        this.sunshine30 = sunshine30;
     }
 
     public Double getSunshine60() {
-        return sunshine_60;
+        return sunshine60;
     }
 
-    public void setSunshine60(Double sunshine_60) {
-        this.sunshine_60 = sunshine_60;
+    public void setSunshine60(Double sunshine60) {
+        this.sunshine60 = sunshine60;
     }
 
 
@@ -329,45 +350,44 @@ public class CurrentWeather {
 
 
 
-//    // Setter for epochTimestamp
-//    public void setEpochTimestamp(long epochTimestamp) {
-//        this.epochTimestamp = epochTimestamp;
-//    }
+    // Setter for epochTimestamp
+    public void setEpochTimestamp(long epochTimestamp) {
+        this.epochTimestamp = epochTimestamp;
+    }
 
     @Override
     public String toString() {
         return "CurrentWeather{" +
-                "source_id=" + source_id +
+                "sourceId=" + sourceId +
                 ", timestamp='" + timestamp +
-                ", cloud_cover=" + cloud_cover +
+                ", cloudCover=" + cloudCover +
                 ", condition='" + condition +
-                ", dew_point=" + dew_point +
-                ", solar_10=" + solar_10 +
-                ", solar_30=" + solar_30 +
-                ", solar_60=" + solar_60 +
-                ", precipitation_10=" + precipitation_10 +
-                ", precipitation_30=" + precipitation_30 +
-                ", precipitation_60=" + precipitation_60 +
-                ", pressure_msl=" + pressure_msl +
-                ", relative_humidity=" + relative_humidity +
+                ", dewPoint=" + dewPoint +
+                ", solar10=" + solar10 +
+                ", solar30=" + solar30 +
+                ", solar60=" + solar60 +
+                ", precipitation10=" + precipitation10 +
+                ", precipitation30=" + precipitation30 +
+                ", precipitation60=" + precipitation60 +
+                ", pressureMsl=" + pressureMsl +
+                ", relativeHumidity=" + relativeHumidity +
                 ", visibility=" + visibility +
-                ", wind_direction_10=" + wind_direction_10 +
-                ", wind_direction_30=" + wind_direction_30 +
-                ", wind_direction_60=" + wind_direction_60 +
-                ", wind_speed_10=" + wind_speed_10 +
-                ", wind_speed_30=" + wind_speed_30 +
-                ", wind_speed_60=" + wind_speed_60 +
-                ", wind_gust_direction_10=" + wind_gust_direction_10 +
-                ", wind_gust_direction_30=" + wind_gust_direction_30 +
-                ", wind_gust_direction_60=" + wind_gust_direction_60 +
-                ", wind_gust_speed_10=" + wind_gust_speed_10 +
-                ", wind_gust_speed_30=" + wind_gust_speed_30 +
-                ", wind_gust_speed_60=" + wind_gust_speed_60 +
-                ", sunshine_30=" + sunshine_30 +
-                ", sunshine_60=" + sunshine_60 +
+                ", windDirection10=" + windDirection10 +
+                ", windDirection30=" + windDirection30 +
+                ", windDirection60=" + windDirection60 +
+                ", windSpeed10=" + windSpeed10 +
+                ", windSpeed30=" + windSpeed30 +
+                ", windSpeed60=" + windSpeed60 +
+                ", windGustDirection10=" + windGustDirection10 +
+                ", windGustDirection30=" + windGustDirection30 +
+                ", windGustDirection60=" + windGustDirection60 +
+                ", windGustSpeed10=" + windGustSpeed10 +
+                ", windGustSpeed30=" + windGustSpeed30 +
+                ", windGustSpeed60=" + windGustSpeed60 +
+                ", sunshine30=" + sunshine30 +
+                ", sunshine60=" + sunshine60 +
                 ", temperature=" + temperature +
                 ", icon='" + icon +
-                //  ", lastUpdated='" + lastUpdated + '\'' +
                 ", epochTimestamp=" + epochTimestamp +
                 '}';
     }

@@ -3,7 +3,7 @@ package com.kafka.MyApiConnector;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
 
-public class ConnectorConfig {
+public class ApiSourceConnectorConfig {
     public static final String STATION_ID = "dwd_station_id";
     public static final String SOURCE_ID = "source_id";
     public static final String WMO_ID = "wmo_station_id";
